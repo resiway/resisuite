@@ -1,0 +1,72 @@
+<div class="grid wrapper">
+    <div class="col-8-12">
+        <div class="subheader">
+            <h1 id="h-top-questions">{{'BADGES_TITLE' | translate}}</h1>
+            
+            <!--
+            <div id="sort-dropdown">
+                <div class="btn-group dropdown" uib-dropdown="" is-open="status.isopen">
+                  <button type="button" class="btn btn-primary dropdown-toggle" uib-dropdown-toggle="" ng-disabled="disabled" aria-haspopup="true" aria-expanded="false">
+                    {{'DROPDOWN_SORT' | translate}} <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
+                    <li class="dropdown-header">Dropdown header</li>
+                    <li ng-repeat="choice in items">
+                      <a href="#">{{choice.txt}}</a>
+                    </li>
+                  </ul>
+                  
+                </div>
+            </div>
+            -->
+            
+        </div>
+
+
+        <div ng-repeat="category in badgeCategories" class="col-1-1" ng-show="category.badges.length > 0">
+        
+            <div class="badge-category">
+                {{ category.title }}
+            </div>
+            <div class="badge-container" style="col-1-1 padding: 10px 0px;"  ng-repeat="badges in category.groups">
+                <div class="badge-row badges" ng-repeat="badge in badges | orderBy: 'type'">
+                    <div class="badge-cell col-3-12">    
+                        <span style="display: inline-block; width: 13px;"><i ng-hide="userBadges.indexOf(badge.id) === -1" class="fa fa-check text-success" aria-hidden="true"></i></span> <div class="badge-item" ><i class="fa fa-circle badge{{badge.type}}" aria-hidden="true"></i> {{badge.name}}</div>
+                    </div>
+                    <div class="badge-cell col-7-12">                    
+                        <div class="badge-description" title="{{badge.description}}">{{badge.description}}</div>
+                    </div>
+                    <div class="badge-cell col-2-12">                    
+                        <div class="badge-count" title="{{badge.count_awarded}}">{{badge.count_awarded}}</div>
+                    </div>
+                    <!--
+                    <div ng-show="user.role != 'u'" style="position: absolute; right: 35px; top: 8px;">
+                        <a href="#/badge/edit/{{badge.id}}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                    </div>
+                    -->
+                </div>
+            </div>
+        </div>
+
+    </div>
+    
+    <div class="col-4-12">
+        <div class="panel panel-default">
+            <div class="container">
+                <div class="container">
+                    
+                    <p><div class="badge-item badges" ><i class="fa fa-circle badge1" aria-hidden="true"></i> Badge de bronze</div></p>
+                    <p>Les badges de bronze sont faciles à obtenir et sont faits pour encourager les participants à tester les fonctionnalités.</p>
+
+                    <p><div class="badge-item badges" ><i class="fa fa-circle badge2" aria-hidden="true"></i> Badge d'argent</div></p>
+                    <p>Les badges d'argent sont moins communs que ceux de bronze... vous devrez ruser pour les obtenir.</p>
+                    
+                    <p><div class="badge-item badges" ><i class="fa fa-circle badge3" aria-hidden="true"></i> Badge d'or</div></p>
+                    <p>Les badges d'or attestent de l'engagement de certains membres de la communauté. Ils sont rarement attribués.</p>
+                    
+                </div>
+            </div>
+        </div>    
+    </div>    
+
+</div>    

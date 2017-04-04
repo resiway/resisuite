@@ -1,0 +1,301 @@
+<div class="grid wrapper">
+
+    <div class="col-1-1">
+
+      <uib-tabset active="active">
+
+        <uib-tab index="0" >
+            <uib-tab-heading>
+                <i class="fa fa-user"></i> {{'USER_PROFILE_TAB_PROFILE' | translate}}
+            </uib-tab-heading>
+            <div class="user-profile col-1-1 nopad" style="padding-top: 10px;">
+                <div class="col-3-12">
+                    <div class="user-card">
+                        <div class="user-picture"><img ng-src="{{rootCtrl.avatarURL(ctrl.user.avatar_url, 150)}}" width="150" height="150"/></div>
+                        <div class="user-details">
+                            <div>
+                                <div class="reputation">{{ctrl.user.reputation | humanizeCount}} <label>{{'USER_PROFILE_REPUTATION' | translate}}</label></div>
+                                <div class="badges">
+                                    <span class="user-badge badge1">
+                                        <span class="badge1"><i class="fa fa-circle" aria-hidden="true"></i></span>
+                                        <span class="badge-count">{{ctrl.user.count_badges_1}}</span>
+                                    </span>
+                                    <span class="user-badge badge2">
+                                        <span class="badge2"><i class="fa fa-circle" aria-hidden="true"></i></span>
+                                        <span class="badge-count">{{ctrl.user.count_badges_2}}</span>
+                                    </span>
+                                    <span class="user-badge badge3">
+                                        <span class="badge3"><i class="fa fa-circle" aria-hidden="true"></i></span>
+                                        <span class="badge-count">{{ctrl.user.count_badges_3}}</span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-5-12" style="min-height: 500px;">
+                    <h2>{{ctrl.user.display_name}}</h2>
+                    <div ng-bind-html="ctrl.user.about | nl2br"></div>
+                </div>
+                <div class="col-4-12">
+                    <div ng-if="user.id == ctrl.user.id" style="padding-top: 10px;">
+                        <a class="btn btn-primary btn-block btn-sm" href="#user/edit/{{user.id}}"><i class="fa fa-cogs" aria-hidden="true"></i> {{'USER_PROFILE_EDIT' | translate}}</a>
+                    </div>
+                    <div class="user-stats">
+                        <div class="row">
+                            <div class="stat col-3">
+                                <span class="item-number">{{ctrl.user.count_questions | humanizeCount}}</span>
+                                <span class="item-label">{{'USER_PROFILE_STATS_QUESTIONS' | translate}}</span>
+                            </div>
+                            <div class="stat col-3">
+                                <span class="item-number">{{ctrl.user.count_answers | humanizeCount}}</span>
+                                <span class="item-label">{{'USER_PROFILE_STATS_ANSWERS' | translate}}</span>
+                            </div>
+                            <div class="stat col-3">
+                                <span class="item-number">{{rctrl.user.count_comments | humanizeCount}}</span>
+                                <span class="item-label">{{'USER_PROFILE_STATS_COMMENTS' | translate}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="user-facts">
+                        <ul>
+                            <li><i class="fa fa-map-marker" aria-hidden="true"></i> {{ctrl.user.location}}, {{ctrl.user.country}}</li>
+                            <li><i class="fa fa-history" aria-hidden="true"></i> {{'USER_PROFILE_MEMBER_FOR' | translate}} {{ctrl.user.created | amDateFormat:'YYYY-MM-DD HH:mm:ss' | amTimeAgo:true}}</li>
+                            <li><i class="fa fa-eye" aria-hidden="true"></i> {{ctrl.user.count_views | humanizeCount}} {{'USER_PROFILE_PROFILE_VIEWS' | translate}}</li>
+                            <li style="text-transform: lowercase"><i class="fa fa-clock-o" aria-hidden="true"></i> {{'USER_PROFILE_LAST_SEEN' | translate}} {{ctrl.user.last_login | amDateFormat:'YYYY-MM-DD HH:mm:ss' | amCalendar}}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </uib-tab>
+
+        <uib-tab index="1" select="ctrl.load(ctrl.updates)" ng-show="ctr.user.id == user.id || user.role == 'a'">
+          <uib-tab-heading>
+            <i class="fa fa-bookmark"></i> {{'USER_PROFILE_TAB_REPUTATION'|translate}}
+          </uib-tab-heading>
+            <div class="loader" ng-show="ctrl.updates.items == -1"><i class="fa fa-spin fa-spinner" aria-hidden="true"></i></div>
+
+            <div class="col-1-1" style="padding-left: 15px; padding-top: 10px;">
+                <div ng-hide="ctrl.updates.items == -1" style="min-height: 250px;">
+                    <div ng-repeat="action in ctrl.updates.items" class="post-summary col-1-1">
+                        <div class="col-9-12 nopad">
+                            <div class="col-5-12" style="overflow: hidden">
+                            <span ng-if="ctrl.user.id == action.user_id" class="mini-counts btn btn-xs" ng-class="{'btn-success': (action.user_increment >= 0), 'btn-danger': (action.user_increment < 0)}">{{((action.user_increment >= 0)?'+':'')+action.user_increment}}</span>
+                            <span ng-if="ctrl.user.id == action.author_id" class="mini-counts btn btn-xs" ng-class="{'btn-success': (action.author_increment >= 0), 'btn-danger': (action.author_increment < 0)}">{{((action.author_increment >= 0)?'+':'')+action.author_increment}}</span>
+                            {{action.description}}
+                            </div>
+                            <div class="col-7-12" style="overflow: hidden">
+                                <h3 class="post-title"><a href="{{rootCtrl.makeLink(action.object_class, action.object_id)}}">{{action.object_name}}</a></h3>
+                            </div>
+                        </div>
+                        <div class="col-3-12 text-right">
+                            {{action.created | amDateFormat:'YYYY-MM-DD HH:mm:ss' | amCalendar}}
+                        </div>
+                    </div>
+                </div>
+
+                <ul uib-pagination
+                    class="pagination-sm"
+                    total-items="ctrl.updates.total"
+                    ng-model="ctrl.updates.currentPage"
+                    ng-change="ctrl.load(ctrl.updates)"
+                    items-per-page="5"
+                    max-size="5"
+                    direction-links="false"
+                    boundary-links="true"
+                    first-text="«"
+                    last-text="»"
+                    rotate="true"
+                    force-ellipses="true"></ul>
+            </div>
+        </uib-tab>
+
+        <uib-tab index="2" select="ctrl.load(ctrl.badges)">
+          <uib-tab-heading>
+            <i class="fa fa-trophy"></i> {{'USER_PROFILE_TAB_BADGES'|translate}}
+          </uib-tab-heading>
+            <div class="loader" ng-show="ctrl.badges.items == -1"><i class="fa fa-spin fa-spinner" aria-hidden="true"></i></div>
+
+            <div class="col-1-1" style="padding-left: 15px; padding-top: 10px;">
+                <div ng-hide="ctrl.badges.items == -1" style="min-height: 250px;">
+                    <div ng-repeat="badge in ctrl.badges.items" class="post-summary col-1-1">
+                        <div class="col-9-12 nopad">
+                            <div class="col-5-12" style="overflow: hidden">
+                            <span class="mini-counts btn btn-xs">{{badge['badge_id.type']}}</span>
+                            {{badge['badge_id.description']}}
+                            </div>
+                            <div class="col-7-12" style="overflow: hidden">
+                                <h3 class="post-title"><a href="#/badge/{{badge.badge_id}}">{{badge['badge_id.name']}}</a></h3>
+                            </div>
+                        </div>
+                        <div class="col-3-12 text-right">
+                            {{badge.modified | amDateFormat:'YYYY-MM-DD HH:mm:ss' | amCalendar}}
+                        </div>
+                    </div>
+                </div>
+
+                <ul uib-pagination
+                    class="pagination-sm"
+                    total-items="ctrl.badges.total"
+                    ng-model="ctrl.badges.currentPage"
+                    ng-change="ctrl.load(ctrl.badges)"
+                    items-per-page="5"
+                    max-size="5"
+                    direction-links="false"
+                    boundary-links="true"
+                    first-text="«"
+                    last-text="»"
+                    rotate="true"
+                    force-ellipses="true"></ul>
+            </div>
+        </uib-tab>
+
+        <uib-tab index="3" select="ctrl.load(ctrl.questions)">
+            <uib-tab-heading>
+                <i class="fa fa-comment-o"></i> {{'USER_PROFILE_TAB_QUESTIONS' | translate}}
+            </uib-tab-heading>
+            <div class="loader" ng-show="ctrl.questions.items == -1"><i class="fa fa-spin fa-spinner" aria-hidden="true"></i></div>
+
+            <div class="col-1-1" style="padding-left: 15px; padding-top: 10px;">
+                <div ng-hide="ctrl.questions.items == -1" style="min-height: 250px;">
+                    <div ng-repeat="question in ctrl.questions.items" class="post-summary col-1-1">
+                        <div class="col-9-12">
+                            <span class="mini-counts btn btn-xs" ng-class="{'btn-success':(question.count_votes > 0), 'btn-danger':(question.count_votes < 0), 'btn-info':(question.count_votes == 0)}">{{question.count_votes | humanizeCount}}</span>
+                            <h3 class="post-title"><a href="#/question/{{question.id}}">{{question.title}}</a></h3>
+                        </div>
+                        <div class="col-3-12 text-right">
+                            {{question.created | amDateFormat:'YYYY-MM-DD HH:mm:ss' | amCalendar}}
+                        </div>
+                    </div>
+                </div>
+
+                <ul uib-pagination
+                    class="pagination-sm"
+                    total-items="ctrl.questions.total"
+                    ng-model="ctrl.questions.currentPage"
+                    ng-change="ctrl.load(ctrl.questions)"
+                    items-per-page="5"
+                    max-size="5"
+                    direction-links="false"
+                    boundary-links="true"
+                    first-text="«"
+                    last-text="»"
+                    rotate="true"
+                    force-ellipses="true"></ul>
+            </div>
+
+        </uib-tab>
+
+        <uib-tab index="4" select="ctrl.load(ctrl.answers)">
+          <uib-tab-heading>
+            <i class="fa fa-comments-o"></i> {{'USER_PROFILE_TAB_ANSWERS' | translate}}
+          </uib-tab-heading>
+            <div class="loader" ng-show="ctrl.answers.items == -1"><i class="fa fa-spin fa-spinner" aria-hidden="true"></i></div>
+
+            <div class="col-1-1" style="padding-left: 15px; padding-top: 10px;">
+                <div ng-hide="ctrl.answers.items == -1" style="min-height: 250px;">
+                    <div ng-repeat="answer in ctrl.answers.items" class="post-summary col-1-1">
+                        <div class="col-9-12">
+                            <span class="mini-counts btn btn-xs" ng-class="{'btn-success':(answer.count_votes > 0), 'btn-danger':(answer.count_votes < 0), 'btn-info':(answer.count_votes == 0)}">{{answer.count_votes | humanizeCount}}</span>
+                            <h3 class="post-title"><a href="#/question/{{answer.question_id}}">{{answer.title}}</a></h3>
+                        </div>
+                        <div class="col-3-12 text-right">
+                            {{answer.created | amDateFormat:'YYYY-MM-DD HH:mm:ss' | amCalendar}}
+                        </div>
+                    </div>
+                </div>
+
+                <ul uib-pagination
+                    class="pagination-sm"
+                    total-items="ctrl.answers.total"
+                    ng-model="ctrl.answers.currentPage"
+                    ng-change="ctrl.load(ctrl.answers)"
+                    items-per-page="5"
+                    max-size="5"
+                    direction-links="false"
+                    boundary-links="true"
+                    first-text="«"
+                    last-text="»"
+                    rotate="true"
+                    force-ellipses="true"></ul>
+            </div>
+        </uib-tab>
+
+        <uib-tab index="5" select="ctrl.load(ctrl.favorites)" ng-show="ctr.user.id == user.id || user.role == 'a'">
+          <uib-tab-heading>
+            <i class="fa fa-star"></i> {{'USER_PROFILE_TAB_FAVORITES' | translate}}
+          </uib-tab-heading>
+            <div class="loader" ng-show="ctrl.favorites.items == -1"><i class="fa fa-spin fa-spinner" aria-hidden="true"></i></div>
+
+            <div class="col-1-1" style="padding-left: 15px; padding-top: 10px;">
+                <div ng-hide="ctrl.favorites.items == -1" style="min-height: 250px;">
+                    <div ng-repeat="action in ctrl.favorites.items" class="post-summary col-1-1">
+                        <div class="col-9-12" style="overflow: hidden">
+                            <h3 class="post-title"><a href="{{rootCtrl.makeLink(action.object_class, action.object_id)}}">{{action.object_name}}</a></h3>
+                        </div>
+                        <div class="col-3-12 text-right">
+                            {{action.created | amDateFormat:'YYYY-MM-DD HH:mm:ss' | amCalendar}}
+                        </div>
+                    </div>
+                </div>
+
+                <ul uib-pagination
+                    class="pagination-sm"
+                    total-items="ctrl.favorites.total"
+                    ng-model="ctrl.favorites.currentPage"
+                    ng-change="ctrl.load(ctrl.favorites)"
+                    items-per-page="5"
+                    max-size="5"
+                    direction-links="false"
+                    boundary-links="true"
+                    first-text="«"
+                    last-text="»"
+                    rotate="true"
+                    force-ellipses="true"></ul>
+            </div>
+        </uib-tab>
+
+        <uib-tab index="6" select="ctrl.load(ctrl.actions)" ng-show="ctr.user.id == user.id || user.role == 'a'">
+          <uib-tab-heading>
+            <i class="fa fa-history"></i> {{'USER_PROFILE_TAB_ACTIVITY' | translate}}
+          </uib-tab-heading>
+            <div class="loader" ng-show="ctrl.actions.items == -1"><i class="fa fa-spin fa-spinner" aria-hidden="true"></i></div>
+
+            <div class="col-1-1" style="padding-left: 15px; padding-top: 10px;">
+                <div ng-hide="ctrl.actions.items == -1" style="min-height: 250px;">
+                    <div ng-repeat="action in ctrl.actions.items" class="post-summary col-1-1">
+                        <div class="col-9-12 nopad">
+                            <div class="col-4-12" style="overflow: hidden">
+                            {{action.description}}
+                            </div>
+                            <div class="col-8-12" style="overflow: hidden">
+                                <h3 class="post-title"><a href="{{rootCtrl.makeLink(action.object_class, action.object_id)}}">{{action.object_name}}</a></h3>
+                            </div>
+                        </div>
+                        <div class="col-3-12 text-right">
+                            {{action.created | amDateFormat:'YYYY-MM-DD HH:mm:ss' | amCalendar}}
+                        </div>
+                    </div>
+                </div>
+                <ul uib-pagination
+                    class="pagination-sm"
+                    total-items="ctrl.actions.total"
+                    ng-model="ctrl.actions.currentPage"
+                    ng-change="ctrl.load(ctrl.actions)"
+                    items-per-page="5"
+                    max-size="5"
+                    direction-links="false"
+                    boundary-links="true"
+                    first-text="«"
+                    last-text="»"
+                    rotate="true"
+                    force-ellipses="true"></ul>
+            </div>
+        </uib-tab>
+
+      </uib-tabset>
+
+
+    </div>
+
+</div>

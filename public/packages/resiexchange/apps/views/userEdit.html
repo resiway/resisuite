@@ -1,0 +1,272 @@
+<div class="grid wrapper">
+    <div class="col-1-1">
+        <div class="page-header">
+            <h1>{{'USER_EDIT_TITLE'|translate}}</h1>
+        </div>
+    </div>
+</div>    
+<div class="grid wrapper">
+
+    <div class="col-8-12">
+    
+        <div class="user-profile wrapper">
+            <div class="col-1-1 nopad">
+
+                <div uib-alert ng-class="'alert-success'" ng-show="showMessage" close="showMessage = false">{{'USER_EDIT_UPDATE_SCCESSFUL'|translate}}</div>
+
+                
+                <uib-tabset active="active">
+                  
+                    <uib-tab index="0" >
+                        <uib-tab-heading>
+                            <i class="fa fa-user"></i> {{'USER_PROFILE_TAB_PROFILE' | translate}}
+                        </uib-tab-heading>
+                        <div style="padding-top: 10px;"> 
+                            <div class="col-1-1 nopad">
+                                <div class="form-group col-1-3">
+                                    <div class="user-card">
+                                        <div class="user-picture"><img ng-src="{{rootCtrl.avatarURL(ctrl.user.avatar_url, 150)}}" width="150" height="150" /></div>
+                                        <div class="user-details">
+                                            <div class="btn-group" uib-dropdown ng-if="user.id == ctrl.user.id" style="padding-top: 10px;">
+                                                <button id="avatar-button" type="button" class="btn btn-primary" uib-dropdown-toggle >
+                                                {{'USER_EDIT_UPDATE_AVATAR'|translate}} <span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="avatar-button">
+                                                    <li role="menuitem">
+                                                    <a href ng-click="ctrl.user.avatar_url = ctrl.avatars.google">
+                                                        <img ng-src="{{rootCtrl.avatarURL(ctrl.avatars.google, '40')}}" width="40" height="40">
+                                                        Google
+                                                    </a>
+                                                    </li>
+                                                    <li class="divider"></li>
+                                                    <li role="menuitem">
+                                                    <a href ng-click="ctrl.user.avatar_url = ctrl.avatars.libravatar">
+                                                        <img ng-src="{{rootCtrl.avatarURL(ctrl.avatars.libravatar, '40')}}" width="40" height="40">
+                                                        Libravatar
+                                                    </a>
+                                                    </li>                                            
+                                                    <li class="divider"></li>
+                                                    <li role="menuitem">
+                                                    <a href ng-click="ctrl.user.avatar_url = ctrl.avatars.gravatar">
+                                                        <img ng-src="{{rootCtrl.avatarURL(ctrl.avatars.gravatar, '40')}}" width="40" height="40">
+                                                        Gravatar
+                                                    </a>
+                                                    </li>
+                                                    <li class="divider"></li>
+                                                    <li role="menuitem">
+                                                    <a href ng-click="ctrl.user.avatar_url = ctrl.avatars.identicon">
+                                                        <img ng-src="{{rootCtrl.avatarURL(ctrl.avatars.identicon, '40')}}" width="40" height="40">
+                                                        Identicon
+                                                    </a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group col-2-3 nopad">
+                                    <div class="input-group col-1-1">
+                                        <span class="input-group-addon" style="width: 100px;"><strong>{{'USER_EDIT_IDENTIFIER' | translate}}</strong></span>
+                                        <input ng-model="ctrl.user.login"
+                                               type="text"
+                                               class="form-control" 
+                                               readonly="readonly" 
+                                               value="" 
+                                               maxlength="128">                            
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group col-2-3 nopad">
+                                    <div class="input-group col-1-1">
+                                        <span class="input-group-addon" style="width: 100px;"><strong>{{'USER_EDIT_FIRSTNAME'|translate}}</strong></span>
+                                        <input ng-model="ctrl.user.firstname"
+                                               type="text"
+                                               class="form-control" 
+                                               value="" 
+                                               maxlength="128">                        
+                                        
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-2-3 nopad">
+                                    <div class="input-group col-1-1">
+                                        <span class="input-group-addon" style="width: 100px;"><strong>{{'USER_EDIT_LASTNAME'|translate}}</strong></span>
+                                        <input ng-model="ctrl.user.lastname"
+                                               type="text"
+                                               class="form-control" 
+                                               value="" 
+                                               maxlength="128">                        
+                                        
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-2-3 nopad">
+                                    <div class="">
+                                        <oi-select  
+                                                    oi-options="item.text for item in ctrl.modes track by item.id"
+                                                    ng-model="ctrl.publicity_mode"                                        
+                                                    placeholder="{{'USER_EDIT_PLACEHOLDER_PUBLICITY_MODE'|translate}}"></oi-select>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group col-2-3 nopad">                    
+                                    <div class="input-group col-1-1">
+                                        <span class="input-group-addon" style="width: 100px;"><strong>{{'USER_EDIT_DISPLAY_NAME'|translate}}</strong></span>
+                                        <input ng-model="ctrl.user.display_name"
+                                               type="text"
+                                               class="form-control" 
+                                               readonly="readonly" 
+                                               value="" 
+                                               maxlength="128">                            
+                                    </div>
+                                </div>                        
+                                
+                            </div>
+
+                            <div class="form-group col-1-3">
+                                <label>{{'USER_EDIT_LANG'|translate}}</label>
+                                <div class="controls">
+                                    <oi-select  ng-init="langs = ['fr', 'en','es']"
+                                                oi-options="item for item in langs"
+                                                ng-model="ctrl.user.language"                                        
+                                                placeholder="Langue"></oi-select>
+                                    <p class="help-inline"></p>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-1-3">
+                                <label>{{'USER_EDIT_COUNTRY'|translate}}</label>
+                                <div class="controls">
+                                    <oi-select  ng-init="countries = ['BE', 'CA', 'CH', 'DE', 'ES', 'FR', 'GB', 'GR', 'IT', 'LU', 'NE', 'PT']"
+                                                oi-options="item for item in countries"
+                                                ng-model="ctrl.user.country"                                        
+                                                placeholder="Pays"></oi-select>                        
+                                    <p class="help-inline"></p>
+                                </div>
+                            </div>   
+                            
+                            <div class="form-group col-1-3 nopad">
+                                <label>{{'USER_EDIT_LOCATION'|translate}}</label>
+                                <div class="controls">
+                                    <input ng-model="ctrl.user.location"
+                                           type="text"
+                                           class="form-control" 
+                                           value="" 
+                                           maxlength="128">                        
+                                    <p class="help-inline"></p>
+                                </div>
+                            </div>   
+                            
+                            <div class="form-group col-1-1 nopad">
+                                <label>{{'USER_EDIT_ABOUT'|translate}}</label>
+                                <div class="controls">
+
+                                    <div class="wrapper">
+                                    <!--
+                                        <textarea class="content form-control"
+                                                  style="height: 200px;"
+                                                  placeholder="{{'USER_EDIT_PLACEHOLDER_ABOUT'|translate}}"
+                                                  ng-model="ctrl.user.about">
+                                        </textarea>
+                                        -->
+                                        <div class="content" 
+                                             text-angular="text-angular" 
+                                             ng-model="ctrl.user.about" 
+                                             ta-toolbar="[
+                                                ['fullScreen', 'html'], ['redo', 'undo'],
+                                                ['bold', 'italics'],
+                                                ['h1', 'h2', 'h3'],                    
+                                                ['ul', 'ol', 'indent','outdent'],
+                                                ['insertLink'],
+                                                ['wordcount', 'charcount']
+                                        ]" 
+                                        ></div>                                
+                                    </div>
+                  
+                                </div>
+                            </div>                        
+                           
+                        </div>
+                    </uib-tab>
+
+                    <uib-tab index="1" >
+                        <uib-tab-heading>
+                            <i class="fa fa-info-circle"></i> {{'USER_PROFILE_TAB_NOTIFICATIONS' | translate}}
+                        </uib-tab-heading>
+                        <div style="padding-top: 15px; min-height: 200px;"> 
+                            
+                            <fieldset class="scheduler-border">
+                                <legend class="scheduler-border">M'avertir par email lorsque</legend>
+                                <div class="checkbox">
+                                    <label>
+                                      <input type="checkbox" ng-model="ctrl.user.notify_reputation_update">
+                                      {{'NOTIFY_REPUTATION_UPDATE'|translate}}
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                      <input type="checkbox" ng-model="ctrl.user.notify_badge_awarded" >                                  
+                                      {{'NOTIFY_BADGE_AWARDED'|translate}}
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                      <input type="checkbox" ng-model="ctrl.user.notify_question_comment">                                  
+                                      {{'NOTIFY_QUESTION_COMMENT'|translate}}
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                      <input type="checkbox" ng-model="ctrl.user.notify_answer_comment" >                                  
+                                      {{'NOTIFY_ANSWER_COMMENT'|translate}}
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                      <input type="checkbox" ng-model="ctrl.user.notify_question_answer">                                  
+                                      {{'NOTIFY_QUESTION_ANSWER'|translate}}
+                                    </label>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </uib-tab>
+
+                    <uib-tab index="2" >
+                        <uib-tab-heading>
+                            <i class="fa fa-star"></i> {{'USER_PROFILE_TAB_FAVORITES' | translate}}
+                        </uib-tab-heading>
+                        <div style="padding-top: 15px; min-height: 200px;"> 
+                           
+                        </div>
+                    </uib-tab>
+                    
+                </uib-tabset>
+
+
+                                
+                <div class="form-actions col-1-1">
+
+                    <button id="user-post"
+                            class="user-profile-submit btn btn-primary" 
+                            ng-click="ctrl.userPost($event)"
+                            uib-popover-template="'popoverCustom.html'" 
+                            popover-trigger="'toggle-popover'" 
+                            popover-placement="right">
+                        {{'USER_EDIT_SUBMIT'|translate}}</button>                          
+                </div>
+
+                
+            </div>
+
+        </div>
+            
+    </div>
+    <div class="col-4-12">
+        <div class="panel panel-default">
+            <div class="container">
+                <a class="btn btn-primary btn-block btn-sm" href="#/user/password"><i class="fa fa-lock" aria-hidden="true"></i> {{'USER_EDIT_UPDATE_PASSWORD'|translate}}</a>
+                <a class="btn btn-primary btn-block btn-sm" href="#/user/profile/{{user.id}}"><i class="fa fa-eye" aria-hidden="true"></i> {{'USER_EDIT_VIEW_PROFILE'|translate}}</a>
+            </div>
+        </div>
+    </div>
+</div>

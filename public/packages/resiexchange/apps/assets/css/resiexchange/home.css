@@ -1,0 +1,18 @@
+.featured-questions {
+    
+}
+
+.featured-questions p, .related-questions p {
+    height: 23px; 
+    line-height: 23px; 
+    margin-bottom: 4px; 
+    max-width: 100%; 
+    text-overflow: ellipsis; 
+    white-space: nowrap; 
+    overflow: hidden;
+}
+
+
+.featured-questions .mini-counts, .related-questions .mini-counts {
+    min-width: 36px;
+}    

@@ -1,0 +1,99 @@
+<div class="grid wrapper">
+    <div class="col-1-1">
+        <div class="page-header">
+            <h1>{{'HELP_CATEGORY_EDIT_TITLE' | translate}}</h1>
+        </div>
+    </div>
+</div>    
+<div class="grid wrapper">
+
+    <div class="col-8-12">
+    
+        <div class="user-question wrapper">
+            <div class="col-1-1 nopad">                
+                    <div class="control-group">
+                        <label for="input01" class="control-label">{{'HELP_CATEGORY_EDIT_FIELDS_TITLE' | translate}}</label>
+                        <div class="controls">
+                            <input id="title" 
+                                   ng-model="ctrl.category.title"
+                                   type="text"
+                                   class="form-control title col-md-4" 
+                                   tabindex="1" 
+                                   value="" 
+                                   size="54" 
+                                   maxlength="128"
+                                   placeholder="{{'HELP_CATEGORY_EDIT_FIELDS_TITLE_HELP' | translate}}">
+                        </div>
+                    </div>          
+                    <div class="control-group">
+                        <label for="input01" class="control-label">{{'HELP_CATEGORY_EDIT_FIELDS_DESCRIPTION' | translate}}</label>
+                        <div class="controls">
+                            <div class="wrapper">
+                                <textarea class="content form-control"
+                                          style="height: 200px;"
+                                          ng-model="ctrl.category.description"
+                                          placeholder="{{'HELP_CATEGORY_EDIT_FIELDS_DESCRIPTION_HELP' | translate}}">
+                                </textarea>
+                            </div>            
+                        </div>
+                    </div>
+                                
+                    <div class="form-actions">            
+
+                        <button class="btn btn-default" tabindex="30" onclick="history.go(-1)">{{'HELP_CATEGORY_EDIT_CANCEL' | translate}}</button>
+
+                        <button id="help-category-post"
+                                class="btn btn-primary" 
+                                ng-click="categoryPost($event)"
+                                uib-popover-template="'popoverCustom.html'" 
+                                popover-trigger="'toggle-popover'" 
+                                popover-placement="right">
+                            {{'HELP_CATEGORY_EDIT_SUBMIT' | translate}}</button>                          
+                    </div>
+
+                
+            </div>
+
+        </div>
+            
+    </div>
+    <div class="col-4-12">
+        <div class="panel panel-default">
+            <div class="container">
+                <div class="module question-stats">
+			        <table id="qinfo">
+			            <tbody>
+                        <tr>
+			                <td>
+			                    <p class="label-key">asked</p>
+			                </td>
+			                <td style="padding-left: 10px">
+			                    <p class="label-key"><b>{{question.created}}</b></p>
+			                </td>
+			            </tr>
+			            <tr>
+			                <td>
+			                    <p class="label-key">viewed</p>
+			                </td>
+
+			                <td style="padding-left: 10px">
+			                    <p class="label-key">
+			                        <b>{{question.count_views}} times</b>
+			                    </p>
+			                </td>
+			            </tr>
+			            <tr>
+                            <td>
+                                <p class="label-key">active</p>
+                            </td>
+                            <td style="padding-left: 10px">
+                                <p class="label-key"><b><a href="?lastactivity" class="lastactivity-link">today</a></b></p>
+                            </td>
+			            </tr>
+                        </tbody>
+                    </table>
+			    </div>
+            </div>
+        </div>
+    </div>
+</div>

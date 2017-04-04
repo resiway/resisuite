@@ -1,0 +1,48 @@
+<div class="grid wrapper">
+    <div class="col-1-1">
+        <div class="page-header">
+            <h1>{{'USER_NOTIFICATIONS_NOTIFICATIONS' | translate}}</h1>
+        </div>
+    </div>
+</div>
+<div class="grid wrapper">
+
+    <div class="col-8-12">
+    
+        <table class="table table-striped">
+            <thead class="thead-default">
+                <tr>
+                    <th width="25%">{{'USER_NOTIFICATIONS_DATE' | translate}}</th>
+                    <th width="25%">{{'USER_NOTIFICATIONS_TITLE' | translate}}</th>
+                    <th width="50%">{{'USER_NOTIFICATIONS_DESCRIPTION' | translate}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="notification in user.notifications">
+                    <td>{{notification.created | amDateFormat:'YYYY-MM-DD HH:mm:ss' | amCalendar}}</td>
+                    <td>{{notification.title}}</td>
+                    <td>                        
+                        <button id="notification-{{notification.id}}-dismiss"
+                                type="button"
+                                title="dismiss"
+                                class="close" 
+                                ng-click="ctrl.dismiss($event, $index)"
+                                uib-popover-template="'popoverCustom.html'"
+                                popover-trigger="'toggle-popover'" 
+                                popover-placement="left">
+                            <span aria-hidden="true">&times;</span>
+                            <span class="sr-only">{{'USER_NOTIFICATIONS_DISMISS' | translate}}</span>
+                        </button>     
+                        <span ng-bind-html="notification.content"></span>
+                    </td>            
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-4-12">
+        <div class="panel panel-default">
+            <div class="container">
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,97 @@
+<div class="grid wrapper">
+    <div class="col-1-1">
+        <div class="page-header">
+            <h1>{{'ANSWER_EDIT_TITLE' | translate}}</h1>
+        </div>
+    </div>
+</div>    
+<div class="grid wrapper">
+
+    <div class="col-8-12">
+    
+        <div class="user-answer wrapper">
+            <div class="col-1-1 nopad">                                    
+                    <div class="control-group">
+                        <div class="controls">
+                            <div class="wrapper">
+                                <div class="content" 
+                                     text-angular="text-angular" 
+                                     ng-model="answer.content" 
+                                     ta-toolbar="[
+                                        ['fullScreen', 'html'], ['redo', 'undo'],
+                                        ['bold', 'italics'],
+                                        ['h1', 'h2', 'h3'],                    
+                                        ['ul', 'ol', 'indent','outdent'],
+                                        ['insertImage', 'insertLink', 'insertVideo'],
+                                        ['wordcount', 'charcount']
+                                ]" 
+                                ></div>
+                            </div>
+                        </div>
+                    </div>
+                                
+                    <div class="form-actions">
+                        <button class="btn btn-default" 
+                                tabindex="30" 
+                                onclick="history.go(-1)">
+                            {{'ANSWER_EDIT_CANCEL' | translate}}</button>
+
+                        <button id="answer-post"
+                                class="user-answer-submit btn btn-primary" 
+                                ng-click="answerPost($event)"
+                                uib-popover-template="'popoverCustom.html'" 
+                                popover-trigger="'toggle-popover'" 
+                                popover-placement="right">
+                            {{'ANSWER_EDIT_SUBMIT' | translate}}</button>                          
+                    </div>
+
+                
+            </div>
+
+        </div>
+            
+    </div>
+    <div class="col-4-12">
+        <div class="panel panel-default">
+            <div class="container">
+                <div class="module answer-stats">
+			        <table id="qinfo">
+			            <tbody>
+                        <tr>
+			                <td>
+			                    <p class="label-key">{{'ANSWER_STATS_ANSWERED' | translate}}</p>
+			                </td>
+			                <td style="padding-left: 10px">
+			                    <p class="label-key"><b>{{answer.created}}</b></p>
+			                </td>
+			            </tr>
+			            <tr>
+			                <td>
+			                    <p class="label-key">{{'ANSWER_STATS_VIEWED' | translate}}</p>
+			                </td>
+
+			                <td style="padding-left: 10px">
+			                    <p class="label-key">
+			                        <b>{{answer.count_views}} {{'ANSWER_STATS_TIMES' | translate}}</b>
+			                    </p>
+			                </td>
+			            </tr>
+			            <tr>
+                            <td>
+                                <p class="label-key">{{'ANSWER_STATS_ACTIVE' | translate}}</p>
+                            </td>
+                            <td style="padding-left: 10px">
+                                <p class="label-key">
+                                    <b>{{answer.modified | amDateFormat:'YYYY-MM-DD HH:mm:ss' | amTimeAgo}}</b>
+                                </p>
+                            </td>
+			            </tr>
+                        </tbody>
+                    </table>
+			    </div>
+            </div>
+        </div>
+        <div ng-include="'answerHelp.html'"></div>
+    </div>
+   
+</div>

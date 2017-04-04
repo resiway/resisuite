@@ -1,0 +1,22 @@
+<div class="grid wrapper">
+    <div class="col-1-1">
+        <div class="subheader">
+            <h1>{{'HELP_CENTER' | translate}}</h1>
+        </div>
+    </div>
+</div>
+<div class="grid wrapper help-center">
+
+    <div class="col-4-12 help-container" ng-repeat="category in ctrl.categories">
+        <div>
+            <div class="panel-heading">
+                <div class="panel-title"><h3><a href="#/help/category/{{category.id}}/{{category.title_url}}">{{category.title}}</a></h3></div>
+            </div>
+            <div class="panel-body help-toc">
+                <ul>
+                    <li ng-repeat="topic in category.topics | limitTo:5"><a href="#/help/topic/{{topic.id}}/{{topic.title_url}}">{{topic.title}}</a></li>
+                </ul>
+            </div>                     
+        </div>
+    </div>
+</div>

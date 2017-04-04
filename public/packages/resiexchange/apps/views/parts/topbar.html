@@ -1,0 +1,112 @@
+
+<div id="topBar" class="topbar" ng-controller="topBarCtrl as ctrl" >        
+
+    <div class="grid wrapper">
+    <!-- 1) dropdown dialogs -->
+        
+        <!-- platform dialog -->
+        <div class="platform-dialog" ng-show="ctrl.platformDropdown" ng-cloak>
+            <div class="head text-uppercase">{{'TOOLBAR_PLATFORM_OTHER_APPS'|translate}}</div>
+            <ul>
+                <li onclick="window.location.href='/resiway.fr'">
+                    <div class="platform-icon resiway"></div>
+                    <div class="descr"><a href="/resiway.fr">Présentation et gestion des outils collaboratifs</a></div>
+                </li>
+                <li onclick="window.location.href='/resiexchange.fr'">
+                    <div class="platform-icon resiexchange"></div>
+                    <div class="descr"><a href="/resiexchange.fr">Questions &amp; Réponses sur les thèmes de l'autonomie, la transition, la permaculture et la résilience</a></div>
+                </li>
+                <li onclick="window.location.href='/resilib.fr'">
+                    <div class="platform-icon resilib"></div>
+                    <div class="descr"><a href="/resilib.fr">Bibliothèque de retours d'expériences pour la réappropriation des savoirs-faire</a></div>
+                </li>
+                <!--
+                <li>
+                    <div class="platform-icon resinet"></div>
+                    <div class="descr">Réseau social de support mutuel et de présentaiton d'initiatives pour l'autonomie, la transition et la permaculture.</div>
+                </li>
+                -->
+                <!--
+                <li>
+                    <div class="platform-icon resipedia"></div>
+                    <div class="descr">Wiki rassemblant les informations de toutes les plateformes</div>
+                </li>
+                -->
+                <li onclick="window.location.href='/ekopedia.fr'">
+                    <div class="platform-icon ekopedia"></div>
+                    <div class="descr"><a href="/ekopedia.fr">Encyclopédie pratique pour intégrer l'écologie à son quotidien</a></div>
+                </li>
+            </ul>
+        </div>
+        <!-- notifications dialog -->        
+        <div class="notify-dialog" ng-show="ctrl.notifyDropdown">
+            <div class="head">
+                <a href="/resiexchange.fr#/user/notifications/{{user.id}}">{{'TOOLBAR_NOTIFICATIONS_TITLE' | translate}}</a>
+                <a href class="pull-right" ng-click="ctrl.notificationsDismissAll()">tout supprimer</a>
+            </div>
+            <ul>
+                <li ng-repeat="(notification_index, notification) in user.notifications">
+                    <div class="title"><a href="/resiexchange.fr#/user/notifications/{{user.id}}">{{notification.title}}</a></div>
+                    <div class="descr" ng-bind-html="notification.content"></div>
+                </li>
+            </ul>
+            <div class="foot"><a href="/resiexchange.fr#/user/notifications/{{user.id}}">+ Voir toutes les notifications</a></div>
+        </div>
+        <!-- help dialog -->
+        <div class="help-dialog" ng-show="ctrl.helpDropdown">
+            <ul>
+                <li>
+                    <div class="title">Centre d'Aide</div>
+                    <div class="descr small"><a href="/resiexchange.fr#/help/categories">Des réponses à toutes vos questions sur le fonctionnement de la plateforme</a></div>
+                </li>
+                <li>
+                    <div class="title">Meta</div>
+                    <div class="descr small"><a href="/meta.resiexchange.fr#/questions">Discussions sur le fonctionnement et les règles de la plateforme</a></div>
+                </li>
+            </ul>
+        </div>
+        <!-- user dialog -->
+        <div class="user-dialog" ng-show="ctrl.userDropdown">
+            <ul>
+                <li>
+                    <a href="/resiexchange.fr#user/profile/{{user.id}}"><i class="fa fa-user" aria-hidden="true"></i> Profil</a>
+                </li>
+                <li>
+                   <a href ng-click="ctrl.signOut()"><i class="fa fa-sign-out" aria-hidden="true"></i> Déconnexion</a>
+                </li>
+            </ul>
+        </div>
+
+        
+    <!-- 2) toolbar -->
+        <div class="col-1-1">
+            <div class="platform-items">
+                <div class="platform-btn {{config.application}}" ng-class="{open: ctrl.platformDropdown}" ng-click="togglePlatformDropdown()">
+                    <div class="app-icon"></div>
+                    <i class="fa fa-caret-down" aria-hidden="true"></i>          
+                </div>            
+                <div id="notify-btn" class="notify-btn ng-hide hidden-xs" ng-class="{open: ctrl.notifyDropdown}" ng-click="toggleNotifyDropdown()" ng-show="user.id">
+                    <i class="fa fa-inbox" aria-hidden="true"></i>
+                    <span ng-show="user.notifications.length" class="unread-count bg-info">{{user.notifications.length}}</span>
+                </div>
+                <div id="help-btn" class="help-btn hidden-xs" ng-class="{open: ctrl.helpDropdown}" ng-click="toggleHelpDropdown()">
+                    Aide 
+                    <i class="fa fa-caret-down" aria-hidden="true"></i>          
+                </div>                
+            </div>
+            
+            <div id="login-btn" class="login-btn ng-hide" ng-hide="user.id">
+                    <a href="/resiexchange.fr#/user/sign/in"><i class="fa fa-sign-in" aria-hidden="true"></i> Connexion</a>
+                    <a href="/resiexchange.fr#/user/sign/up"><i class="fa fa-user-plus" aria-hidden="true"></i> Inscription</a>
+            </div>
+            <div id="user-btn" class="user-btn ng-hide" ng-class="{open: ctrl.userDropdown}" ng-click="toggleUserDropdown()" ng-show="user.id">
+                <span class="user-avatar pull-left">
+                  <img ng-src="{{rootCtrl.avatarURL(user.avatar_url, 30)}}" class="center-block">
+                </span>
+                {{ user.display_name }}
+                <i class="fa fa-caret-down" aria-hidden="true"></i>          
+            </div>            
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,58 @@
+<div class="grid wrapper">
+    <div class="col-1-1">
+        <div class="subheader">
+            <h1 id="h-top-questions">{{'CATEGORIES_TITLE' | translate}}</h1>
+            
+            <!--
+            <div id="sort-dropdown">
+                <div class="btn-group dropdown" uib-dropdown="" is-open="status.isopen">
+                  <button type="button" class="btn btn-primary dropdown-toggle" uib-dropdown-toggle="" ng-disabled="disabled" aria-haspopup="true" aria-expanded="false">
+                    {{'DROPDOWN_SORT' | translate}} <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
+                    <li class="dropdown-header">Dropdown header</li>
+                    <li ng-repeat="choice in items">
+                      <a href="#">{{choice.txt}}</a>
+                    </li>
+                  </ul>
+                  
+                </div>
+            </div>
+            -->
+            
+        </div>
+
+        <div class="loader" ng-show="ctrl.config.loading"><i class="fa fa-spin fa-spinner" aria-hidden="true"></i></div>
+        
+        <div ng-show="!ctrl.config.loading" ng-repeat="category in ctrl.config.items" class="col-1-4 categories category-container" >
+        
+            <a class="category" href ng-click="rootCtrl.search({domain: [['categories_ids', 'contains', category.id]]})">{{category.title}}</a>
+            <div class="category-count">x {{category.count_questions | humanizeCount}}</div>
+            <!-- <div title="{{category.path}}" style="width: 100%; white-space: nowrap; overflow: hidden; font-size: 9px;">{{category.path}}</div> -->
+            <div class="category-excerpt" >{{category.description}}</div>
+            <div class="category-stats"></div>
+
+            <div ng-show="user.role == 'm' || user.role == 'a'" style="position: absolute; right: 35px; top: 8px;">
+                <a href="#/category/edit/{{category.id}}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+            </div>
+            
+        </div>
+        <div style="clear: both;">
+            <ul uib-pagination 
+                class="pagination-sm" 
+                total-items="ctrl.config.total" 
+                ng-model="ctrl.config.currentPage"
+                ng-change="ctrl.load(ctrl.config)"
+                items-per-page="ctrl.config.limit"
+                max-size="5" 
+                direction-links="false"
+                boundary-links="true"
+                boundary-link-numbers="true"
+                first-text="«" 
+                last-text="»"                    
+                rotate="true"
+                force-ellipses="true"></ul>         
+        </div>
+    </div>
+
+</div>    

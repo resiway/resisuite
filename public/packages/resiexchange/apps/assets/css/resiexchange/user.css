@@ -1,0 +1,150 @@
+/* user login  */
+.login-pane {
+
+}
+
+.login-pane .input-group {
+    height: 34px;
+}
+.login-pane p {
+    margin: 0;
+    padding: 0;
+}
+
+/* user profile */
+.user-profile {
+    padding-bottom: 50px;
+}
+
+.user-profile .user-card {
+    border: 1px solid #c8ccd0;
+    border-radius: 4px;
+    text-align: center;
+    padding: 17px 35px;
+    box-shadow: inset 0 130px 0 #e7e8ea;
+    width: 220px;
+}
+
+.user-profile .user-card .reputation {
+    padding: 12px 0;
+    font-size: 22px;
+    font-weight: 300;
+    color: #181a1c;
+}
+
+.user-profile .user-card .reputation label {
+    text-transform: uppercase;
+    font-size: 11px;
+    font-weight: 500;
+    color: #999;
+}
+
+.user-profile .user-picture {
+    margin-right: 10px;
+    padding: 0;
+    overflow: hidden;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.075);
+    line-height: 1.4;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    transition: all .2s ease-in-out;
+    width: 150px;
+    height: 150px;
+}
+
+
+
+.user-profile .user-badge {
+    display: inline-block;
+    margin-right: 1px;
+    padding: 7px;
+    border: 1px solid transparent;
+    border-radius: 2px
+}
+
+.user-profile .user-badge.badge1  {
+    background: #f9ebe1;
+    border-color: #f1decc;
+}
+
+.user-profile .user-badge.badge2  {
+    background: #edeeef;
+    border-color: #e0e1e3
+}            
+
+.user-profile .user-badge.badge3  {
+    background: #fff8e2;
+    border-color: #ece3c8; 
+}
+
+.user-profile .user-badge .badge-count {
+    color: #535a60;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.user-profile .user-stats {
+    position: relative;
+    color: #666;
+    padding: 20px 0 20px 20px;
+}
+
+.user-profile .user-stats .row {
+    margin: 0;
+    padding: 0;
+}
+
+.user-profile .user-stats .number {
+    display: block;
+    color: #0C0D0E;
+    font-weight: 700;
+    font-size: 17px
+}
+
+.user-profile .user-stats .stat {
+    margin-left: 6px
+}
+
+.user-profile .user-stats .stat:first-child {
+    margin-left: 0
+}
+
+.user-profile .user-facts {
+    color: #666;
+    position: relative;
+}
+
+.user-facts ul {
+    overflow: hidden;
+    margin-bottom: 0;
+    list-style: none;
+    margin-left: 0;
+    padding: 0;
+    padding-left: 20px;
+}
+
+.user-profile .user-facts ul li a:visited {
+    color: #666;
+}
+.user-profile .user-facts ul li a {
+    color: #666;
+}
+
+.user-profile .user-facts ul li {
+    margin-top: 11px;
+}
+
+.user-profile fieldset {
+    border: solid 1px #ddd;
+    padding-left: 20px;
+}
+
+.user-profile fieldset legend {
+    width: inherit;
+    border: 0;
+    margin: 0;
+    font-size: 14px;
+    font-weight: 700;
+color: #555;    
+}

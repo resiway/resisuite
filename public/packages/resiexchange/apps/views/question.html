@@ -1,0 +1,600 @@
+<div class="grid wrapper">
+    <div class="col-1-1">
+        <div class="page-header">
+            <h1>{{question.title}}</h1>
+        </div>
+    </div>
+</div>
+<div class="grid wrapper">
+
+    <div class="col-8-12">
+    
+        <div class="question wrapper" 
+            itemscope="" 
+            itemtype="https://schema.org/Question">
+            <div class="vote col-1-12 nopad">                
+                <div class="voteup" 
+                     ng-class="{on: question.history['resiexchange_question_voteup']}">
+                    <a href
+                       id="question-voteup"
+                       title="{{'QUESTION_ACTIONS_VOTEUP_TOOLTIP' | translate}}"
+                       class="fa fa-thumbs-o-up" 
+                       ng-click="questionVoteUp($event)" 
+                       uib-popover-template="'popoverCustom.html'" 
+                       popover-trigger="'toggle-popover'" 
+                       popover-placement="right"
+                       popover-append-to-body="true"
+                       aria-hidden="true"></a>
+                </div>
+                <div class="vote-count" itemprop="upvoteCount" >
+                    <span>{{question.score | humanizeCount}}</span>
+                </div>
+                <div class="votedown" 
+                     ng-class="{on: question.history['resiexchange_question_votedown']}">
+                    <a href
+                       id="question-votedown"
+                       title="{{'QUESTION_ACTIONS_VOTEDOWN_TOOLTIP' | translate}}"
+                       class="fa fa-thumbs-o-down" 
+                       ng-click="questionVoteDown($event)" 
+                       uib-popover-template="'popoverCustom.html'" 
+                       popover-trigger="'toggle-popover'" 
+                       popover-placement="right"                        
+                       aria-hidden="true">
+                    </a>
+                </div>
+                <div class="star" 
+                     ng-class="{on: question.history['resiexchange_question_star']}">
+                    <a href 
+                       id="question-star"
+                       title="{{'QUESTION_ACTIONS_STAR_TOOLTIP' | translate}}"
+                       class="fa fa-star"
+                       ng-click="questionStar($event)" 
+                       uib-popover-template="'popoverCustom.html'" 
+                       popover-trigger="'toggle-popover'" 
+                       popover-placement="right"                        
+                       aria-hidden="true">
+                    </a>
+                </div>
+                <div class="favorite-count"><span>{{question.count_stars | humanizeCount}}</span></div>
+            </div>
+            <div class="content col-11-12 nopad">
+            
+                <div class="text" itemprop="text">                    
+                    <p ng-bind-html="question.content"></p>
+                </div>
+                
+                <div class="tags">
+                    <a ng-repeat="tag in question.tags" href ng-click="rootCtrl.search({domain: [['categories_ids', 'contains', tag.id]]})" class="tag" title="{{tag.description}}" rel="tag">{{tag.title}}</a> 
+                </div>
+                
+                <div class="footer">
+                    <div class="meta">
+                        <div class="actions">
+                            <a href="#/question/{{question.id}}/{{question.title_url}}" 
+                               title="{{'QUESTION_ACTIONS_SHARE_TOOLTIP' | translate}}"
+                               class="short-link">
+                                <i class="fa fa-share-alt" aria-hidden="true"></i> {{'QUESTION_ACTIONS_SHARE' | translate}}
+                            </a>&nbsp;
+                            <a href="#/question/edit/{{question.id}}">
+                                <i class="fa fa-pencil" aria-hidden="true"></i> {{'QUESTION_ACTIONS_EDIT' | translate}}
+                            </a>&nbsp;                            
+                            <a href                                         
+                               id="question-flag"
+                               title="{{'QUESTION_ACTIONS_FLAG_TOOLTIP' | translate}}"
+                               ng-class="{on: question.history['resiexchange_question_flag']}"                                           
+                               ng-click="questionFlag($event)"
+                               uib-popover-template="'popoverCustom.html'" 
+                               popover-trigger="'toggle-popover'" 
+                               popover-placement="right">                               
+                                <i class="fa fa-flag" aria-hidden="true"></i> {{'QUESTION_ACTIONS_FLAG' | translate}}
+                            </a>&nbsp;                            
+                            <a href 
+                               id="question-delete"
+                               title="{{'QUESTION_ACTIONS_DELETE_TOOLTIP' | translate}}"
+                               class="delete-post-link"                                
+                               ng-show="user.id==question.creator.id || user.role!='u'"
+                               ng-click="questionDelete($event)"
+                               uib-popover-template="'popoverCustom.html'"
+                               popover-trigger="'toggle-popover'"
+                               popover-placement="right">
+                                <i class="fa fa-remove" aria-hidden="true"></i> {{'QUESTION_ACTIONS_DELETE' | translate}}
+                            </a>                            
+                        </div>
+                        <div class="signature" ng-if="question.editor != 0 && question.editor.id != question.creator.id">
+                            <div class="user-info">
+                                <div class="user-action-time">
+                                    <span class="relativetime">{{'QUESTION_STATS_EDITED' | translate}} {{question.edited | amDateFormat:'YYYY-MM-DD HH:mm:ss' | amCalendar}}</span>
+                                </div>
+                                <div class="user-avatar">
+                                    <a href="#/user/profile/{{question.editor.id}}">
+                                        <div class="avatar-wrapper">
+                                            <img ng-src="{{rootCtrl.avatarURL(question.editor.avatar_url, 32)}}" title="{{question.editor.display_name}}" width="32" height="32">
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="user-details">
+                                    <a href="#/user/profile/{{question.editor.id}}">{{question.editor.display_name}}</a>
+                                    <div>
+                                        <span class="reputation-score" title="{{'QUESTION_USER_DETAILS_REPUTATION'|translate}}">{{question.editor.reputation}}</span>
+                                        <span class="badges" title="{{'QUESTION_USER_DETAILS_BADGES_BRONZE'|translate}}" ng-show="question.editor.count_badges_1 > 0">
+                                            <span class="badge1"><i class="fa fa-circle" aria-hidden="true"></i></span>
+                                            <span class="badgecount">{{ question.editor.count_badges_1 }}</span>
+                                        </span>
+                                        <span class="badges" title="{{'QUESTION_USER_DETAILS_BADGES_SILVER'|translate}}" ng-show="question.editor.count_badges_2 > 0">
+                                            <span class="badge2"><i class="fa fa-circle" aria-hidden="true"></i></span>
+                                            <span class="badgecount">{{ question.editor.count_badges_2 }}</span>
+                                        </span>
+                                        <span class="badges" title="{{'QUESTION_USER_DETAILS_BADGES_GOLD'|translate}}" ng-show="question.editor.count_badges_3 > 0">
+                                            <span class="badge1"><i class="fa fa-circle" aria-hidden="true"></i></span>
+                                            <span class="badgecount">{{ question.editor.count_badges_3 }}</span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="signature owner">
+                            <div class="user-info">
+                                <div class="user-action-time">
+                                    <span class="relativetime">{{'QUESTION_STATS_ASKED' | translate}} {{question.created | amDateFormat:'YYYY-MM-DD HH:mm:ss' | amCalendar}}</span>
+                                </div>
+                                <div class="user-avatar">
+                                    <a href="#/user/profile/{{question.creator.id}}">
+                                        <div class="avatar-wrapper">
+                                            <img ng-src="{{rootCtrl.avatarURL(question.creator.avatar_url, 32)}}" title="{{question.creator.display_name}}" width="32" height="32">
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="user-details">
+                                    <a href="#/user/profile/{{question.creator.id}}">{{question.creator.display_name}}</a>
+                                    <div>
+                                        <span class="reputation-score" title="{{'QUESTION_USER_DETAILS_REPUTATION'|translate}}">{{question.creator.reputation}}</span>
+                                        <span class="badges" title="{{'QUESTION_USER_DETAILS_BADGES_BRONZE'|translate}}" ng-show="question.creator.count_badges_1 > 0">
+                                            <span class="badge1"><i class="fa fa-circle" aria-hidden="true"></i></span>
+                                            <span class="badgecount">{{ question.creator.count_badges_1 }}</span>
+                                        </span>
+                                        <span class="badges" title="{{'QUESTION_USER_DETAILS_BADGES_SILVER'|translate}}" ng-show="question.creator.count_badges_2 > 0">
+                                            <span class="badge2"><i class="fa fa-circle" aria-hidden="true"></i></span>
+                                            <span class="badgecount">{{ question.creator.count_badges_2 }}</span>
+                                        </span>
+                                        <span class="badges" title="{{'QUESTION_USER_DETAILS_BADGES_GOLD'|translate}}" ng-show="question.creator.count_badges_3 > 0">
+                                            <span class="badge3"><i class="fa fa-circle" aria-hidden="true"></i></span>
+                                            <span class="badgecount">{{ question.creator.count_badges_3 }}</span>
+                                        </span>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="comments">
+                
+                    <div ng-repeat="(comment_index, comment) in question.comments | limitTo: question.commentsLimit">
+                    <div id="comment-{{comment.id}}" class="comment-{{comment_index}} comment wrapper">
+                        
+                        <div class="comment-vote col-1-12 nopad">
+                            <div class="comment-score">
+                                <span title="{{'QUESTION_COMMENT_SCORE_TOOLTIP' | translate}}">
+                                    {{comment.score | humanizeCount}}
+                                </span>
+                            </div>
+                            <div class="comment-actions" >
+                                <div class="comment-voteup" 
+                                     ng-class="{on: comment.history['resiexchange_questioncomment_voteup']}">
+                                    <a href
+                                       id="comment-{{comment.id}}-voteup"
+                                       title="{{'QUESTION_COMMENT_ACTIONS_VOTEUP_TOOLTIP' | translate}}"                                   
+                                       class="fa fa-thumbs-o-up" 
+                                       ng-click="questionCommentVoteUp($event, comment_index)"
+                                       uib-popover-template="'popoverCustom.html'" 
+                                       popover-trigger="'toggle-popover'" 
+                                       popover-placement="right"
+                                       aria-hidden="true">
+                                    </a>
+                                </div>
+                                <div class="comment-flag" >
+                                    <a href
+                                       class="fa fa-flag"
+                                       title="{{'QUESTION_COMMENT_ACTIONS_FLAG_TOOLTIP' | translate}}"                                    
+                                       aria-hidden="true">
+                                    </a>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="comment-text col-11-12 nopad">
+                            <div class="comment-body">
+                                <span class="comment-copy">{{comment.content}}</span>
+                                –&nbsp;
+                                <a class="comment-user" href="#/user/profile/{{comment.creator.id}}" title="{{comment.creator.reputation}}">{{comment.creator.display_name}}</a>
+                                <span class="comment-date" dir="ltr">
+                                    <a class="comment-link" href="#/question/{{question.id}}#comment-{{comment.id}}">
+                                        <span class="relativetime" title="{{comment.created | amDateFormat:'YYYY-MM-DD HH:mm:ss' | amCalendar}}">{{comment.created | amDateFormat:'YYYY-MM-DD HH:mm:ss' | amTimeAgo}}</span>
+                                    </a>
+                                </span>
+                            </div>
+                        </div>                       
+                    </div>
+                    </div>
+                    
+                </div>
+                
+                <div class="comments-actions">
+                    <a href 
+                       ng-click="question.newCommentShow = true" 
+                       class="js-add-link comments-link " 
+                       title="{{ 'QUESTION_COMMENTS_ADD_TOOLTIP' | translate}}" >
+                       {{ 'QUESTION_COMMENTS_ADD' | translate}}</a>
+                    <span ng-show="question.comments.length > question.commentsLimit">                        
+                        <span class="js-link-separator ">&nbsp;|&nbsp;</span>
+                        <a href 
+                           ng-click="question.commentsLimit=1000" 
+                           class="js-show-link comments-link " 
+                           title="{{ 'QUESTION_COMMENTS_SHOW_ALL_TOOLTIP' | translate}}">
+                           {{ 'QUESTION_COMMENTS_SHOW_ALL' | translate}}</a>
+                    </span>
+                    <div class="wrapper new-comment" style="margin-top: 10px;" ng-show="question.newCommentShow">
+                        <textarea ng-model="question.newCommentContent" style="width: 100%;" placeholder="{{ 'QUESTION_COMMENTS_ADD_PLACEHOLDER' | translate }}"></textarea>
+                        <button id="question-addComment" 
+                                class="btn btn-primary btn-xs"
+                                ng-click="questionComment($event)"
+                                uib-popover-template="'popoverCustom.html'" 
+                                popover-trigger="'toggle-popover'" 
+                                popover-placement="right">
+                            Submit
+                        </button>
+                    </div>
+                </div>
+
+                
+            </div>
+        </div>
+        
+        <div class="answers">
+        
+            <div class="subheader">
+                <h2>{{question.answers.length}} {{'QUESTION_ANSWERS_COUNT_LABEL' | translate}}</h2>
+                
+                <div id="sort-dropdown">
+                    <div class="btn-group dropdown" uib-dropdown="" is-open="status.isopen">
+                      <button id="single-button" type="button" class="btn btn-primary dropdown-toggle" uib-dropdown-toggle="" ng-disabled="disabled" aria-haspopup="true" aria-expanded="false">
+                        Trier <span class="caret"></span>
+                      </button>
+                    <!-- Simple dropdown -->
+
+                      <ul class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
+                        <li class="dropdown-header">Dropdown header</li>
+                        <li ng-repeat="choice in items">
+                          <a href="#">{{choice.txt}}</a>
+                        </li>
+                      </ul>
+                    </div>
+                </div>
+                
+            </div>
+
+            <div ng-repeat="(answer_index, answer) in question.answers">
+            <div id="answer-{{answer.id}}" 
+                 class="answer-{{answer_index}} answer wrapper" 
+                 ng-class="{on: (user.id==answer.creator.id)}"
+                 itemscope="" 
+                 itemtype="s//schema.org/Answer" 
+                 itemprop="acceptedAnswer">
+                <div class="vote col-1-12 nopad">                                                        
+                    <div class="voteup" 
+                         ng-class="{on: answer.history['resiexchange_answer_voteup']}">
+                        <a href 
+                           id="answer-{{answer.id}}-voteup"
+                           title="{{'QUESTION_ANSWER_ACTIONS_VOTEUP_TOOLTIP' | translate}}"
+                           class="fa fa-thumbs-o-up"
+                           ng-click="answerVoteUp($event, answer_index)" 
+                           uib-popover-template="'popoverCustom.html'" 
+                           popover-trigger="'toggle-popover'" 
+                           popover-placement="right"                           
+                           aria-hidden="true">
+                        </a>
+                    </div>
+                    <div class="vote-count" itemprop="upvoteCount" >
+                        <span>{{answer.score | humanizeCount}}</span>
+                    </div>
+                    <div class="votedown" 
+                         ng-class="{on: answer.history['resiexchange_answer_votedown']}">
+                        <a href
+                           id="answer-{{answer.id}}-votedown"
+                           title="{{'QUESTION_ANSWER_ACTIONS_VOTEDOWN_TOOLTIP' | translate}}"
+                           class="fa fa-thumbs-o-down"
+                           ng-click="answerVoteDown($event, answer_index)" 
+                           uib-popover-template="'popoverCustom.html'" 
+                           popover-trigger="'toggle-popover'" 
+                           popover-placement="right"                           
+                           aria-hidden="true">
+                        </a>
+                    </div>                                       
+                </div>
+                <div class="content col-11-12 nopad">
+                
+                    <div itemprop="text" class="text" >                    
+                        <p ng-bind-html="answer.content"></p>
+                    </div>
+                    
+                    <div class="footer">
+                        <div class="meta">
+                            <div class="actions">
+                                <a href="#/question/{{question.id}}#answer-{{answer.id}}"
+                                   title="{{'QUESTION_ANSWER_ACTIONS_SHARE_TOOLTIP' | translate}}" 
+                                   class="short-link" >
+                                    <i class="fa fa-share-alt" aria-hidden="true"></i> {{'QUESTION_ANSWER_ACTIONS_SHARE' | translate}}
+                                </a>&nbsp;
+                                <a href="#/answer/edit/{{answer.id}}">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i> {{'QUESTION_ANSWER_ACTIONS_EDIT' | translate}}
+                                </a>&nbsp;                               
+                                <a href                                         
+                                   id="answer-{{answer.id}}-flag"
+                                   title="{{'QUESTION_ANSWER_ACTIONS_FLAG_TOOLTIP' | translate}}"
+                                   ng-class="{on: answer.history['resiexchange_answer_flag']}"                                           
+                                   ng-click="answerFlag($event, answer_index)"
+                                   uib-popover-template="'popoverCustom.html'" 
+                                   popover-trigger="'toggle-popover'" 
+                                   popover-placement="right">                               
+                                    <i class="fa fa-flag" aria-hidden="true"></i> {{'QUESTION_ANSWER_ACTIONS_FLAG' | translate}}
+                                </a>&nbsp;                                 
+                                <a href
+                                   id="answer-{{answer.id}}-delete"
+                                   title="{{'QUESTION_ANSWER_ACTIONS_DELETE_TOOLTIP' | translate}}"
+                                   class="delete-post-link "
+                                   ng-show="user.id==answer.creator.id"
+                                   ng-click="answerDelete($event, answer_index)"
+                                   uib-popover-template="'popoverCustom.html'" 
+                                   popover-trigger="'toggle-popover'" 
+                                   popover-placement="right">
+                                    <i class="fa fa-remove" aria-hidden="true"></i> {{'QUESTION_ANSWER_ACTIONS_DELETE' | translate}}
+                                </a>                                 
+                            </div>
+                            <!--                            
+                            <div class="signature">
+                                <div class="user-info">
+                                    <div class="user-action-time">
+                                        <a href="" title="show all edits to this post">edited <span title="2016-05-26 16:15:01Z" class="relativetime">May 26 at 16:15</span></a>
+                                    </div>
+                                    <div class="user-avatar">
+                                        <a href=""><div class="avatar-wrapper"><img src="seST2.gif" alt="" width="32" height="32"></div></a>
+                                    </div>
+                                    <div class="user-details">
+                                        <a href=""></a><span class="mod-flair" title="moderator">♦</span>
+                                        <div>
+                                            <span class="reputation-score" title="reputation score 27,171" dir="ltr">27.2k</span>
+                                            <span class="badges" title="6 gold badges"><span class="badge1"><i class="fa fa-circle" aria-hidden="true"></i></span><span class="badgecount">6</span></span>
+                                            <span class="badges" title="39 silver badges"><span class="badge2"><i class="fa fa-circle" aria-hidden="true"></i></span><span class="badgecount">39</span></span>
+                                            <span class="badges" title="72 bronze badges"><span class="badge3"><i class="fa fa-circle" aria-hidden="true"></i></span><span class="badgecount">72</span></span>
+                                        </div>
+                                    </div>
+                                </div>    
+                            </div>
+                            -->
+                            <div class="signature owner">
+                                <div class="user-info">
+                                    <div class="user-action-time">
+
+                                        <span class="relativetime" title="{{answer.created | amDateFormat:'YYYY-MM-DD HH:mm:ss' | amCalendar}}">{{'ANSWER_STATS_ANSWERED' | translate}} {{answer.created | amDateFormat:'YYYY-MM-DD HH:mm:ss' | amTimeAgo}}</span>
+                                    </div>
+                                    <div class="user-avatar">
+                                        <a href="#/user/profile/{{answer.creator.id}}">
+                                            <div class="avatar-wrapper">
+                                                <img ng-src="{{rootCtrl.avatarURL(answer.creator.avatar_url, 32)}}" title="{{answer.creator.display_name}}" width="32" height="32">
+                                            </div>                                        
+                                        </a>                                        
+                                    </div>
+                                    <div class="user-details">
+                                        <a href="#/user/profile/{{answer.creator.id}}">{{answer.creator.display_name}}</a>
+                                        <div>
+                                            <span class="reputation-score" title="{{'QUESTION_USER_DETAILS_REPUTATION'|translate}}" dir="ltr">{{answer.creator.reputation}}</span>
+                                            <span class="badges" title="{{'QUESTION_USER_DETAILS_BADGES_GOLD'|translate}}" ng-show="answer.creator.count_badges_3 > 0">
+                                                <span class="badge3"><i class="fa fa-circle" aria-hidden="true"></i></span>
+                                                <span class="badgecount">{{ answer.creator.count_badges_3 }}</span>
+                                            </span>
+                                            <span class="badges" title="{{'QUESTION_USER_DETAILS_BADGES_SILVER'|translate}}" ng-show="answer.creator.count_badges_2 > 0">
+                                                <span class="badge2"><i class="fa fa-circle" aria-hidden="true"></i></span>
+                                                <span class="badgecount">{{ answer.creator.count_badges_2 }}</span>
+                                            </span>
+                                            <span class="badges" title="{{'QUESTION_USER_DETAILS_BADGES_BRONZE'|translate}}" ng-show="answer.creator.count_badges_1 > 0">
+                                                <span class="badge1"><i class="fa fa-circle" aria-hidden="true"></i></span>
+                                                <span class="badgecount">{{ answer.creator.count_badges_1 }}</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+
+
+                    <div class="comments">                                      
+
+                        <div ng-repeat="(comment_index, comment) in answer.comments | limitTo: question.answers[answer_index].commentsLimit" class="comment wrapper">
+                            <div id="comment-{{answer.id}}-{{comment.id}}" class="comment-{{comment_index}} comment-vote col-1-12 nopad">
+                                <div class="comment-score">
+                                    <span title="{{'QUESTION_COMMENT_SCORE_TOOLTIP'|translate}}" class="warm">
+                                    {{comment.score | humanizeCount}}
+                                    </span>
+                                </div>
+                                <div class="comment-actions" >
+                                    <div class="comment-voteup" >
+                                        <a href
+                                           id="answer-{{answer.id}}-comment-{{comment.id}}-voteup"
+                                           title="{{'QUESTION_COMMENT_ACTIONS_VOTEUP_TOOLTIP' | translate}}"
+                                           class="fa fa-thumbs-o-up"
+                                           ng-class="{on: comment.history['resiexchange_answercomment_voteup']}"                                           
+                                           ng-click="answerCommentVoteUp($event, answer_index, comment_index)"
+                                           uib-popover-template="'popoverCustom.html'" 
+                                           popover-trigger="'toggle-popover'" 
+                                           popover-placement="right"
+                                           aria-hidden="true">
+                                        </a>
+                                    </div>
+                                    <div class="comment-flag">
+                                        <a href                                         
+                                           id="answer-{{answer.id}}-comment-{{comment.id}}-flag"
+                                           title="{{'QUESTION_COMMENT_ACTIONS_FLAG_TOOLTIP' | translate}}"
+                                           class="fa fa-flag" 
+                                           ng-class="{on: comment.history['resiexchange_answercomment_flag']}"                                           
+                                           ng-click="answerCommentFlag($event, answer_index, comment_index)"
+                                           uib-popover-template="'popoverCustom.html'" 
+                                           popover-trigger="'toggle-popover'" 
+                                           popover-placement="right"                                           
+                                           aria-hidden="true">
+                                        </a>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="comment-text col-11-12 nopad">
+                                <div class="comment-body">
+                                    <span class="comment-copy">{{comment.content}}</span>
+                                    –&nbsp;
+                                    <a class="comment-user" href="#/user/profile/{{comment.creator.id}}" title="{{comment.creator.reputation}}">{{comment.creator.display_name}}</a>
+                                    <span class="comment-date" dir="ltr">
+                                        <a class="comment-link" href="#/question/{{question.id}}#comment-{{answer.id}}-{{comment.id}}">
+                                            <span class="relativetime" title="{{comment.created | amDateFormat:'YYYY-MM-DD HH:mm:ss' | amCalendar}}">{{comment.created | amDateFormat:'YYYY-MM-DD HH:mm:ss' | amTimeAgo}}</span>
+                                        </a>
+                                    </span>
+                                </div>
+                            </div>                       
+                        </div>  
+                        
+                    </div>
+                    
+                    <div class="comments-actions">
+                        <a href
+                           ng-click="question.answers[answer_index].newCommentShow = true" 
+                           class="js-add-link comments-link " 
+                           title="{{'QUESTION_COMMENTS_ADD_TOOLTIP' | translate}}">
+                            {{'QUESTION_COMMENTS_ADD' | translate}}
+                        </a>
+                        <span ng-show="answer.comments.length > question.answers[answer_index].commentsLimit">
+                            <span class="js-link-separator">&nbsp;|&nbsp;</span>
+                            <a href
+                               ng-click="question.answers[answer_index].commentsLimit=1000" 
+                               class="js-show-link comments-link " 
+                               title="{{'QUESTION_COMMENTS_SHOW_ALL_TOOLTIP' | translate}}">
+                                {{'QUESTION_COMMENTS_SHOW_ALL' | translate}}
+                            </a>
+                        </span>
+                        <div 
+                            class="wrapper new-comment" 
+                            style="margin-top: 10px;" 
+                            ng-show="question.answers[answer_index].newCommentShow">
+                            <textarea 
+                                ng-model="question.answers[answer_index].newCommentContent" 
+                                style="width: 100%;" 
+                                placeholder="{{'QUESTION_COMMENTS_ADD_PLACEHOLDER' | translate}}">
+                            </textarea>
+                            <button id="answer-{{answer.id}}-addComment" 
+                                    class="btn btn-primary btn-xs"
+                                    ng-click="answerComment($event, answer_index)"
+                                    uib-popover-template="'popoverCustom.html'" 
+                                    popover-trigger="'toggle-popover'" 
+                                    popover-placement="right">                                    
+                                Submit
+                            </button>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            </div>
+            
+            
+        </div>
+        
+        <div id="your-answer" class="user-answer" ng-hide="user.id && question.history['resiexchange_question_answer']">
+            <div class="subheader">
+                <h2>{{'QUESTION_USER_ANSWER' | translate}}</h2>
+            </div>
+            <div class="wrapper">
+                <div class="content" text-angular="text-angular" 
+                ng-model="question.newAnswerContent" 
+                ta-toolbar="[
+                        ['fullScreen', 'html'], ['redo', 'undo'],
+                        ['bold', 'italics'],
+                        ['h1', 'h2', 'h3'],                    
+                        ['ul', 'ol', 'indent','outdent'],
+                        ['insertImage', 'insertLink', 'insertVideo'],
+                        ['wordcount', 'charcount']
+                ]" 
+                ></div>
+            </div>            
+            <button id="question-addAnswer"
+                    class="user-answer-submit btn btn-primary" 
+                    ng-click="questionAnswer($event)"
+                    uib-popover-template="'popoverCustom.html'" 
+                    popover-trigger="'toggle-popover'" 
+                    popover-placement="right">
+                {{'QUESTION_USER_ANSWER_SUBMIT' | translate}}</button>            
+        </div>
+            
+    </div>
+    <div class="col-4-12">
+        <div class="panel panel-default">
+            <div class="container" style="border-bottom: solid 1px lightgrey;">
+                <div class="module question-stats">
+                    <div class="stat-row">
+                        <div class="title">
+                            {{'QUESTION_STATS_ASKED' | translate}}
+                        </div>
+                        <div class="content">
+                            <b>{{question.created}}</b>
+                        </div>
+                    </div>
+                    <div class="stat-row">                    
+                        <div class="title">
+                            {{'QUESTION_STATS_VIEWED' | translate}}
+                        </div>
+                        <div class="content">
+                            <b>{{question.count_views}} {{'QUESTION_STATS_TIMES' | translate}}</b>
+                        </div>
+                    </div>                        
+                    <div class="stat-row">                        
+                        <div class="title">
+                            {{'QUESTION_STATS_ACTIVE' | translate}}
+                        </div>
+                        <div class="content">
+                            <b>{{question.modified | amDateFormat:'YYYY-MM-DD HH:mm:ss' | amTimeAgo}}</b>
+                        </div>
+                    </div>                        
+                    <div class="stat-row">                        
+                        <div class="title">
+                            Auteur
+                        </div>
+                        <div class="content">
+                            <b>{{question.creator.display_name}}</b>
+                        </div>
+                    </div>                        
+                    <div class="stat-row">                        
+                        <div class="title">
+                            
+                        </div>
+                        <div class="content about">
+                            <p ng-bind-html="question.creator.about"></p>
+                        </div>
+                    </div>                        
+                    
+			    </div>
+            </div>
+            <div class="container fade-in-out" ng-show="related_questions.length > 0" >                    
+                <h4>Questions similaires</h4>
+                <div class="related-questions" ng-repeat="question in related_questions">
+                    <p>
+                        <span class="mini-counts btn btn-xs ng-binding btn-success" ng-class="{'btn-success':(question.count_votes > 0), 'btn-danger':(question.count_votes < 0), 'btn-info':(question.count_votes == 0)}">{{question.score}}</span>                
+                        <a href="#/question/{{question.id}}/{{question.title_url}}" title="{{question.title}}">{{question.title}}</a>                    
+                    </p>
+                </div>                
+            </div>
+        </div>
+    </div>
+    <div class="col-4-12 answer-help" ng-hide="user.id && question.history['resiexchange_question_answer']">
+        <div ng-include="'answerHelp.html'"></div>
+    </div>
+</div>

@@ -1,0 +1,117 @@
+<div class="grid wrapper">
+    <div class="col-1-1">
+        <div class="page-header">
+            <h1>{{'HELP_TOPIC_EDIT_TITLE' | translate}}</h1>
+        </div>
+    </div>
+</div>    
+<div class="grid wrapper">
+
+    <div class="col-8-12">
+    
+        <div class="user-answer wrapper">
+            <div class="col-1-1 nopad">
+                    <div class="control-group">
+                        <label for="input01" class="control-label">Titre</label>
+                        <div class="controls">
+                            <input id="title" 
+                                   ng-model="ctrl.topic.title"
+                                   type="text"
+                                   class="form-control title col-md-4" 
+                                   tabindex="1" 
+                                   value="" 
+                                   size="54" 
+                                   maxlength="128">
+                            <p class="help-inline">Indiquez un titre aussi clair et concis que possible pour votre question. (max 400 caractères)</p>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label for="input01" class="control-label">Catégorie</label>
+                        <div class="controls">
+                            <oi-select
+                                        oi-options="item.title for item in ctrl.categories track by item.id"
+                                        ng-model="category"
+                                        placeholder="Catégories"></oi-select>
+                            <p class="help-inline">Choisissez une ou plusieurs catégorie(s) parmi la liste</p>
+                        </div>
+                    </div>                    
+                    <div class="control-group">
+                        <div class="controls">
+                            <div class="wrapper">
+                                <div class="content" 
+                                     text-angular="text-angular" 
+                                     ng-model="ctrl.topic.content" 
+                                     ta-toolbar="[
+                                        ['fullScreen', 'html'], ['redo', 'undo'],
+                                        ['bold', 'italics'],
+                                        ['h1', 'h2', 'h3'],                    
+                                        ['ul', 'ol', 'indent','outdent'],
+                                        ['insertImage', 'insertLink', 'insertVideo'],
+                                        ['wordcount', 'charcount']
+                                ]" 
+                                ></div>
+                            </div>
+                        </div>
+                    </div>
+                                
+                    <div class="form-actions">
+                        <button class="btn btn-default" 
+                                tabindex="30" 
+                                onclick="history.go(-1)">
+                            {{'HELP_TOPIC_EDIT_CANCEL' | translate}}</button>
+
+                        <button id="topic-post"
+                                class="btn btn-primary" 
+                                ng-click="topicPost($event)"
+                                uib-popover-template="'popoverCustom.html'" 
+                                popover-trigger="'toggle-popover'" 
+                                popover-placement="right">
+                            {{'HELP_TOPIC_EDIT_SUBMIT' | translate}}</button>                          
+                    </div>
+
+                
+            </div>
+
+        </div>
+            
+    </div>
+    <div class="col-4-12">
+        <div class="panel panel-default">
+            <div class="container">
+                <div class="module question-stats">
+			        <table id="qinfo">
+			            <tbody>
+                        <tr>
+			                <td>
+			                    <p class="label-key">asked</p>
+			                </td>
+			                <td style="padding-left: 10px">
+			                    <p class="label-key"><b>{{question.created}}</b></p>
+			                </td>
+			            </tr>
+			            <tr>
+			                <td>
+			                    <p class="label-key">viewed</p>
+			                </td>
+
+			                <td style="padding-left: 10px">
+			                    <p class="label-key">
+			                        <b>{{question.count_views}} times</b>
+			                    </p>
+			                </td>
+			            </tr>
+			            <tr>
+                            <td>
+                                <p class="label-key">active</p>
+                            </td>
+                            <td style="padding-left: 10px">
+                                <p class="label-key"><b><a href="?lastactivity" class="lastactivity-link">today</a></b></p>
+                            </td>
+			            </tr>
+                        </tbody>
+                    </table>
+			    </div>
+            </div>
+        </div>
+    </div>
+</div>

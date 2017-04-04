@@ -1,0 +1,30 @@
+<div class="grid wrapper">
+    <div class="col-1-1">
+        <div class="subheader">
+            <h1><a href="#/help/category/{{ctrl.topic.category_id}}/{{ctrl.topic['category_id.title_url']}}">{{ctrl.topic['category_id.title']}}</a> &gt; <a href="#/help/topic/{{ctrl.topic.id}}/{{ctrl.topic.title_url}}">{{ctrl.topic.title}}</a></h1>
+        </div>
+    </div>
+</div>
+<div class="grid wrapper help-center">
+    <div class="col-8-12">    
+        <div class="topic wrapper">
+            <div class="text" itemprop="text">                    
+                <p ng-bind-html="ctrl.topic.content"></p>
+            </div>
+        </div>            
+    </div>
+    <div class="col-4-12">
+        <div class="panel panel-default">
+            <div class="container help-toc">
+                <ul>
+                    <li ng-repeat="category in ctrl.categories">
+                        <a ng-class="{active: (category.id == ctrl.topic.category_id)}" href="#/help/category/{{category.id}}/{{category.title_url}}">{{category.title}}</a>
+                        <ul ng-if="category.id == ctrl.topic.category_id">
+                            <li ng-repeat="topic in category.topics"><a ng-class="{active: (topic.id == ctrl.topic.id)}" href="#/help/topic/{{topic.id}}/{{topic.title_url}}">{{topic.title}}</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

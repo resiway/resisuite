@@ -1,0 +1,114 @@
+<div class="grid wrapper">
+    <div class="col-1-1">
+        <div class="page-header">
+            <h1>{{'CATEGORY_EDIT_TITLE' |translate}}</h1>
+        </div>
+    </div>
+
+    <div class="col-1-1">
+        <div class="col-8-12 page-body">
+        
+            <div class="user-question wrapper">
+                <div class="col-1-1 nopad">                
+                    <div class="control-group">
+                        <label for="input01" class="control-label">{{'CATEGORY_EDIT_FIELDS_TITLE' | translate}}</label>
+                        <div class="controls">
+                            <input id="title" 
+                                   ng-model="category.title"
+                                   type="text"
+                                   class="form-control title col-md-4" 
+                                   tabindex="1" 
+                                   value="" 
+                                   size="54" 
+                                   maxlength="128">
+                            <p class="help-inline">{{'CATEGORY_EDIT_FIELDS_TITLE_HELP' | translate}}</p>
+                        </div>
+                    </div>          
+                    <div class="control-group">
+                        <label for="input01" class="control-label">{{'CATEGORY_EDIT_FIELDS_PARENT' | translate}}</label>
+                        <div class="controls">
+                        <!-- alternate display (but sorting before grouping): oi-options="item.path group by item.parent_path for item in categories" -->                                       
+                            <oi-select
+                                        oi-options="item.path for item in loadMatches($query)"
+                                        ng-model="category.parent"
+                                        oi-select-options="{
+                                            searchFilter: 'customSearchFilter',
+                                            dropdownFilter: 'customDropdownFilter',
+                                            listFilter: 'customListFilter'
+                                        }"                                        
+                                        placeholder="Catégorie"></oi-select>                                        
+                            <p class="help-inline">{{'CATEGORY_EDIT_FIELDS_PARENT_HELP' | translate}}</p>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label for="input01" class="control-label">{{'CATEGORY_EDIT_FIELDS_DESCRIPTION' | translate}}</label>
+                        <div class="controls">
+                            <div class="wrapper">
+                                <textarea class="content form-control"
+                                          style="height: 200px;"
+                                          ng-model="category.description">
+                                </textarea>
+                            </div>            
+                            <p class="help-inline">{{'CATEGORY_EDIT_FIELDS_DESCRIPTION_HELP' | translate}}</p>                     
+                        </div>
+                    </div>
+                                
+                    <div class="form-actions">            
+
+                        <button class="btn btn-default" tabindex="30" onclick="history.go(-1)">{{'CATEGORY_EDIT_CANCEL' | translate}}</button>
+
+                        <button id="category-post"
+                                class="user-category-submit btn btn-primary" 
+                                ng-click="categoryPost($event)"
+                                uib-popover-template="'popoverCustom.html'" 
+                                popover-trigger="'toggle-popover'" 
+                                popover-placement="right">
+                            {{'CATEGORY_EDIT_SUBMIT' | translate}}</button>                          
+                    </div>
+                   
+                </div>
+
+            </div>
+                
+        </div>
+        <div class="col-4-12">
+            <div class="panel panel-default">
+                <div class="container">
+                    <div class="module question-stats">
+                        <table id="qinfo">
+                            <tbody>
+                            <tr>
+                                <td>
+                                    <p class="label-key">asked</p>
+                                </td>
+                                <td style="padding-left: 10px">
+                                    <p class="label-key"><b>{{question.created}}</b></p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p class="label-key">viewed</p>
+                                </td>
+
+                                <td style="padding-left: 10px">
+                                    <p class="label-key">
+                                        <b>{{question.count_views}} times</b>
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p class="label-key">active</p>
+                                </td>
+                                <td style="padding-left: 10px">
+                                    <p class="label-key"><b><a href="?lastactivity" class="lastactivity-link">today</a></b></p>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    
+</div>

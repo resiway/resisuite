@@ -1,0 +1,27 @@
+<ul>
+    <li name="Accountancy">
+        <ul>
+            <li target="account\Invoice">Paid Invoices</li>
+        </ul>
+    </li>
+    <li name="Workflow">
+        <ul>
+            <li target="workflow\Job">All Jobs</li>
+            <li target="workflow\Job" sortname="our_ref" sortorder="desc" domain="[[['invoice_id','=','0']]]">Jobs in progress</li>
+        </ul>    
+    </li>
+    <li name="Users &amp; Groups">
+        <ul>
+            <li target="core\User">Users</li>
+            <li target="core\Group">Groups</li>            
+            <li target="core\Permission">Rights management</li>
+        </ul>
+    </li>
+    <li name="CRM">
+        <ul>
+            <li target="crm\Contact">Contacts</li>
+            <li target="core\Lead">Leads</li>            
+            <li target="core\Customers">Customers</li>
+        </ul>    
+    </li>    
+</ul>

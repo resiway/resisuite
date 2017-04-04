@@ -1,0 +1,126 @@
+<div class="grid wrapper">   
+    <div class="col-8-12 page-body">    
+        <div class="user-question wrapper">
+            <div class="col-1-1 nopad">                
+                    <div class="control-group">
+                        <label for="input01" class="control-label">Titre</label>
+                        <div class="controls">
+                            <input id="title" 
+                                   ng-model="question.title"
+                                   type="text"
+                                   class="form-control title col-md-4" 
+                                   tabindex="1" 
+                                   value="" 
+                                   size="54" 
+                                   maxlength="128">
+                            <p class="help-inline">Indiquez un titre aussi clair et concis que possible pour votre question. (max 400 caractères)</p>
+                        </div>
+                    </div>          
+                    <div class="control-group">
+                        <label for="input01" class="control-label">Catégories</label>
+                        <div class="controls">
+                        <!-- alternate display (but sorting before grouping): oi-options="item.path group by item.parent_path for item in categories" -->
+                            <oi-select
+                                        oi-options="item.path for item in loadMatches($query)"
+                                        ng-model="question.tags"
+                                        multiple
+                                        multiple-limit="8"
+                                        oi-select-options="{
+                                            searchFilter: 'customSearchFilter',
+                                            dropdownFilter: 'customDropdownFilter',
+                                            listFilter: 'customListFilter',
+                                            newItem: true,
+                                            saveTrigger: 'enter blur . , ;',
+                                            newItemFn: 'addItem($query)'
+                                        }"                                        
+                                        placeholder="Catégories"></oi-select>
+                                        
+                            <p class="help-inline">Choisissez ou créez une ou plusieurs catégories</p>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label for="input01" class="control-label">Description</label>
+                        <div class="controls">
+
+                            <div class="wrapper">
+                                <div class="content" 
+                                     text-angular="text-angular" 
+                                     ng-model="question.content" 
+                                     ta-toolbar="[
+                                        ['fullScreen', 'html'], ['redo', 'undo'],
+                                        ['bold', 'italics'],
+                                        ['h1', 'h2', 'h3'],                    
+                                        ['ul', 'ol', 'indent','outdent'],
+                                        ['insertImage', 'insertLink', 'insertVideo'],
+                                        ['wordcount', 'charcount']
+                                ]" 
+                                ></div>
+                            </div>            
+          
+                     
+                        </div>
+                    </div>
+                                
+                    <div class="form-actions">            
+
+                        <button class="btn btn-default" tabindex="30" onclick="history.go(-1)">Cancel</button>
+
+                        <button id="question-post"
+                                class="btn btn-primary" 
+                                ng-click="questionPost($event)"
+                                uib-popover-template="'popoverCustom.html'" 
+                                popover-trigger="'toggle-popover'" 
+                                popover-placement="right">
+                            Soumettre la question</button>                          
+                    </div>
+
+                
+            </div>
+
+        </div>
+            
+    </div>
+    <div class="col-4-12">
+        <div ng-if="question.id" class="panel panel-default">
+            <div class="container">
+                <div class="module question-stats">
+			        <table id="qinfo">
+			            <tbody>
+                        <tr>
+			                <td>
+			                    <p class="label-key">{{'QUESTION_STATS_ASKED' | translate}}</p>
+			                </td>
+			                <td style="padding-left: 10px">
+			                    <p class="label-key"><b>{{question.created}}</b></p>
+			                </td>
+			            </tr>
+			            <tr>
+			                <td>
+			                    <p class="label-key">{{'QUESTION_STATS_VIEWED' | translate}}</p>
+			                </td>
+
+			                <td style="padding-left: 10px">
+			                    <p class="label-key">
+			                        <b>{{question.count_views}} {{'QUESTION_STATS_TIMES' | translate}}</b>
+			                    </p>
+			                </td>
+			            </tr>
+			            <tr>
+                            <td>
+                                <p class="label-key">{{'QUESTION_STATS_ACTIVE' | translate}}</p>
+                            </td>
+                            <td style="padding-left: 10px">
+                                <p class="label-key">
+                                    <b>{{question.modified | amDateFormat:'YYYY-MM-DD HH:mm:ss' | amTimeAgo}}</b>
+                                </p>
+                            </td>
+			            </tr>
+                        </tbody>
+                    </table>
+			    </div>
+            </div>
+        </div>
+
+        <div ng-include="'questionHelp.html'"></div>          
+    </div>    
+</div>    

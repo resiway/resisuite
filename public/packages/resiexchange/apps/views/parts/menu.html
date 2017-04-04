@@ -1,0 +1,75 @@
+<div class="grid wrapper">
+    <div class="col-1-1">
+    
+        
+		<nav role="navigation" class="navbar navbar-default visible-xs" style="width: 100%; margin-right: 0;">
+            <div class="navbar-header" ng-init="isNavCollapsed = true">
+                <button type="button" class="navbar-toggle" ng-click="isNavCollapsed = !isNavCollapsed">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">ResiExchange</a>			
+            </div>
+            <div class="collapse navbar-collapse" uib-collapse="isNavCollapsed">
+                <ul class="nav navbar-nav">
+                    <li><a href="#/question/edit/0">Poser une question</a></li>
+                    <li><a href="#/questions">Questions</a></li>
+                    <li><a href="#/categories">Catégories</a></li>
+                    <li><a href="#/badges">Badges</a></li>
+                    <li><a href="#/help">Aide</a></li>
+                </ul>            
+            </div>		
+		</nav>
+	
+    
+        <div class="breadcrumb visible-lg visible-md visible-sm">
+            <div class="btn-group">
+                <a href="#/question/edit/0" class="btn btn-success">Poser une question</a>
+            </div>
+            <div class="search-input form-group-sm hidden-xs">
+                <form ng-submit="rootCtrl.search({q: search.criteria.q})">
+                <div class="input-group">
+                    <i ng-show="loadingLocations" class="fa fa-spin fa-spinner" style="position: absolute; left: -15px; top: 10px;"></i>                
+                    <input 
+                    id="search-input"
+                    class="form-control" 
+                    name="q" 
+                    type="text" 
+                    placeholder="{{'TOOLBAR_SEARCH_PLACEHOLDER'|translate}}"  
+                    ng-model="search.criteria.q" 
+                    autocomplete="off"
+                    uib-typeahead="item for item in getKeywords($viewValue)" 
+                    typeahead-loading="loadingLocations" 
+                    typeahead-append-to-body="true"
+                    typeahead-min-length="3"
+                    typeahead-wait-ms="300"
+                    typeahead-on-select="selectMatch($item, $model, $label, $event)"
+                    maxlength="50">                   
+                    <div class="input-group-btn">
+                        <button id="search-input-button" class="btn btn-sm btn-default" type="submit"><i class="fa fa-search"></i></button>
+                    </div>
+                </div>
+                </form>
+            </div>            
+            <div class="btn-group pull-right">
+                <a href="#/questions" ng-click="rootCtrl.search()" class="btn btn-info">Questions</a>
+                <a href="#/categories" class="btn btn-info">Catégories</a>
+                <a href="#/badges" class="btn btn-info">Badges</a>                
+                <div class="btn-group" uib-dropdown dropdown-append-to-body>
+                  <a href="/resiexchange.fr#/help/categories" id="help-button" class="btn btn-warning">Aide</a>
+                  <button type="button" class="btn btn-warning" uib-dropdown-toggle>
+                    <span class="caret"></span>
+                    <span class="sr-only">Aide</span>
+                  </button>
+                  <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="help-button">
+                    <li role="menuitem"><a href="/resiexchange.fr#/help/categories">Centre d'aide</a></li>
+                    <li role="menuitem"><a href="/meta.resiexchange.fr#/questions">Meta</a></li>
+                  </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

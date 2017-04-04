@@ -1,0 +1,69 @@
+<div class="grid wrapper">
+    <div class="col-8-12">
+        <div class="well blank_index">
+                <h2>Bienvenue sur ResiExchange !</h2>
+                <p style="font-size:1.0em;">
+                <strong>ResiExchange</strong> est une plateforme collaborative d'échange d'informations pour les initiatives aspirant à la résilience.<br />
+                <br />
+                Le développement et la participation à cet outil, supporté par l'association <a href="//www.resiway.org/">RésiWay</a>, sont ouverts à tous.<br />
+                <br />
+                Avec l'aide de chacun, l'objectif est de constituer une bibliothèque de réponses détaillées aux questions relatives à l'autonomie, la transition, la permaculture et la résilience.<br />
+                <br />
+                <a href="#/help/categories" class="btn btn-info" style="margin-bottom: 5px;">Découvrir les fonctionnalités</a>
+                <a href="#/questions" class="btn btn-info" style="margin-bottom: 5px;">Consulter les question-réponses</a>
+                <a href="#/question/edit/0" class="btn btn-primary" style="margin-bottom: 5px;">Poser votre première question</a>
+            </p>
+            
+        </div>
+    </div>
+    
+    <div class="col-4-12">
+        <div class="panel panel-default" style="min-height: 520px;">
+            <div class="container">
+                <div class="container">
+                    <span class="item-number">{{ctrl.count_questions}}</span>
+                    <span class="item-label">{{'QUESTIONS_STATS_QUESTIONS' | translate}}</span>
+                </div>
+                <div class="container">
+                    <span class="item-number">{{ctrl.count_users}}</span>
+                    <span class="item-label">{{'QUESTIONS_STATS_USERS' | translate}}</span>
+                </div>
+            </div>
+            
+            <div class="container">
+                <form ng-submit="rootCtrl.search({q: search.criteria.q})">                    
+                    <div class="input-group">                    
+                        <input type="text" class="form-control" name="q" placeholder="{{'TOOLBAR_SEARCH_AMONG_QUESTION_PLACEHOLDER'|translate}}" value="" ng-model="search.criteria.q" autocomplete="off" maxlength="240">
+                        <span class="input-group-btn">
+                            <button type="submit" class="btn btn-primary custom_nav_search_button">Go</button>
+                        </span>
+                     </div>
+                </form>
+            </div>           
+
+         
+            <div class="container">
+                <div class="lead" style="border-bottom: 1px solid grey;">
+                    <div class="sectiontitle">À propos</div>
+                </div>
+                <div id="aboutcontent">
+                    <p><b><a href="/resiexchange.fr">ResiExchange</a></b> est une plateforme collaborative open source d'échange d'informations sur les thèmes de l'autonomie, la transition, la permaculture et la résilience.</p>
+                </div>                
+            </div>
+
+            <div class="container fade-in-out" ng-show="ctrl.questions.length > 0">
+                <div class="lead" style="border-bottom: 1px solid grey;">
+                    <div class="sectiontitle">Questions populaires</div>
+                </div>
+                <div class="featured-questions" ng-repeat="question in ctrl.questions">
+                    <p>
+                        <span class="mini-counts btn btn-success btn-xs">{{question.count_votes | humanizeCount}}</span>
+                        <a href="#/question/{{question.id}}/{{question.title_url}}" title="{{question.title}}">{{question.title}}</a>                    
+                    </p>
+                </div>                
+            </div>
+            
+        </div>
+    </div>
+    
+</div>
